@@ -1,0 +1,45 @@
+
+#contenedorProductos, .itemCarrito {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  margin-left: 100px;
+}
+.card{
+  margin: 10px;
+  margin-top: 50px;
+}
+
+#agregar{
+  margin-top: 5px;
+}
+
+.loQuiero{
+ margin-block: 15px;
+ margin-left: 35px;
+ margin-right: 35px;
+}
+.text-danger{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#contenedorCarrito {
+  border: 2px solid black;
+  min-height: 100px;
+}
+
+.itemCarrito * {
+  margin: 5px;
+}
+
+.ocultar {
+  display: none !important;
+}
+.imagen{
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 15px;
+}
