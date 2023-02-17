@@ -3,7 +3,6 @@ fetch("./productos.json")
 .then(productosDB => miPrograma(productosDB))
 .catch(error => console.log(error))
 
-
 function miPrograma(productos){
 let carrito = localStorage.getItem("carrito") ? JSON.parse(localStorage.getItem("carrito")) : []
 
@@ -121,7 +120,7 @@ function renderizarCarrito(productosEnCarrito) {
     let tarjetaProducto = document.createElement("div")
     tarjetaProducto.classList.add("itemCarrito")
     tarjetaProducto.innerHTML += `
-      <h4>${nombre}</h3>
+      <h3>${nombre}</h3>
       <button id=dec${id} onclick= decrementarUnidad(${id}) class="btn btn-outline-primary">-</button>
       <p>${unidades}</p>
       <button id=inc${id} onclick= incrementarUnidad(${id}) class="btn btn-outline-primary">+</button>
@@ -133,7 +132,9 @@ function renderizarCarrito(productosEnCarrito) {
   })
 
   contenedorCarrito.innerHTML += `
+    <div class="btn-comprar">
     <button id="comprar"class="btn btn-outline-success">COMPRAR</button>
+    </div>
   `
   let comprar = document.getElementById("comprar")
   comprar.addEventListener("click", finalizarCompra)
