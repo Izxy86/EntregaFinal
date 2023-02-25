@@ -45,6 +45,14 @@ function filtrar() {
   renderizarProductos(productosFiltrados)
 }
 
+function carritoVacio(){
+  if (carrito.length === 0){
+    contenedorCarrito.innerHTML = `
+    <h3>¡Aún no agregastes productos!</h3>`
+  }
+}
+carritoVacio()
+
 function renderizarProductos(arrayDeProductos) {
   contenedorProductos.innerHTML = ""
   arrayDeProductos.forEach(({ id, nombre, precio, img: imagen, stock }) => {
@@ -73,13 +81,12 @@ function renderizarProductos(arrayDeProductos) {
     let boton = document.getElementById("agregar" + id)
     boton.onclick = agregarAlCarrito
   })
-  let categoria= getElementById("catComp")
-  categoria.onclick(filtrarPorCategoria)
+  
+ 
 }
 
 function agregarAlCarrito(e) {
 
-  console.log(e)
   let id = e.target.id.slice(7)
   console.log(id)
   let productoBuscado = productos.find(producto => producto.id == id)
@@ -116,21 +123,32 @@ function agregarAlCarrito(e) {
 
 function renderizarCarrito(productosEnCarrito) {
   contenedorCarrito.innerText = ""
-  productosEnCarrito.forEach(({ nombre, unidades, subtotal, id }) => {
+  productosEnCarrito.forEach(({ nombre, unidades, subtotal, id ,img:imagen}) => {
     let tarjetaProducto = document.createElement("div")
     tarjetaProducto.classList.add("itemCarrito")
     tarjetaProducto.innerHTML += `
       <h3>${nombre}</h3>
-      <button id=dec${id} onclick= decrementarUnidad(${id}) class="btn btn-outline-primary">-</button>
-      <p>${unidades}</p>
-      <button id=inc${id} onclick= incrementarUnidad(${id}) class="btn btn-outline-primary">+</button>
-      <p>Subtotal:${subtotal}</p>
+      <img src=./img/${imagen} class="imgCarrito">
+      <p> Precio:<br>$${subtotal}</p>
+      <button id=restarCant${id} class="btn btn-outline-primary">-</button>
+      <p class="cantidadCArrito">Cantidad: ${unidades}</p>
+      <button id=aumentarCant${id} class="btn btn-outline-primary">+</button>
+      <p>Subtotal: $${(unidades * subtotal)}</p>
+      <button id=eliminar${id} class="btn btn-outline-primary"> Eliminar</button>
       
     `
     contenedorCarrito.appendChild(tarjetaProducto)
+    let btnEliminar = document.getElementById("eliminar" + id)
+    btnEliminar.addEventListener("click", eliminarDelCarrito)
+
+    let btnRestarCant = document.getElementById("restarCant" + id)
+    btnRestarCant.addEventListener("click", restarCant)
+
+    let btnAumentarCant = document.getElementById("aumentarCant" + id)
+    btnAumentarCant.addEventListener("click", aumentarCant)
 
   })
-
+  
   contenedorCarrito.innerHTML += `
     <div class="btn-comprar">
     <button id="comprar"class="btn btn-outline-success">COMPRAR</button>
@@ -141,34 +159,65 @@ function renderizarCarrito(productosEnCarrito) {
   
 }
 
-function decrementarUnidad(id) {
+function aumentarCant(e) {
 
-  let posProductoBuscado = carrito.findIndex(producto => producto.id == id)
-  if (carrito[posProductoBuscado].unidades > 1) {
-    carrito[posProductoBuscado].unidades--
-    carrito[posProductoBuscado].subtotal = carrito[posProductoBuscado].precio * carrito[posProductoBuscado].unidades
-  } else {
-    carrito.splice(posProductoBuscado, 1)
-    
-  }
+  let prodId = e.target.id.substring(12)
+  console.log(prodId)
+  let item = carrito.find(producto => producto.id === Number(prodId))
+  console.log(item)
+  let indice = carrito.indexOf(item)
+  console.log(indice)
+  carrito[indice].unidades++
+
   renderizarCarrito(carrito)
+  localStorage.setItem("carrito",JSON.stringify(carrito))
+  Toastify({
+    text: "Producto actualizado",
+    duration: 3000,
+    gravity: "top", 
+    position: "right", 
+    style:{
+      background: "linear-gradient(to right,#00b09b, #96c93d )"
+    }
+  }).showToast();
 }
 
-function incrementarUnidad(id) {
+function restarCant(e) {
 
-  let posProductoBuscado = carrito.findIndex(producto => producto.id == id)
-  let productoOriginal = productos.find(producto => producto.id == id)
-  if (carrito[posProductoBuscado].unidades < productoOriginal.stock) {
-    carrito[posProductoBuscado].unidades++
-    carrito[posProductoBuscado].subtotal = carrito[posProductoBuscado].precio * carrito[posProductoBuscado].unidades
-  } else {
-    alert("no hay más unidades disponibles")
+  let prodId = e.target.id.substring(10)
+  let item = carrito.find(producto => producto.id ===Number(prodId))
+  let indice = carrito.indexOf(item)
+   if (carrito[indice].unidades > 1){
+    carrito[indice].unidades--
+   }else if (carrito[indice].unidades == 1){
+    Toastify({
+      text: "Elimine el producto",
+      duration: 3000,
+      gravity: "top", 
+      position: "right", 
+      style:{
+        background: "linear-gradient(to right,#00b09b, #96c93d )"
+      }
+    }).showToast();
+
+   }
+   renderizarCarrito()
+   localStorage.setItem("carrito",JSON.stringify(carrito))
   }
-  renderizarCarrito(carrito)
+
+
+  function eliminarDelCarrito(e){
+    let prodId = e.target.id.substring(9)
+    let item = carrito.find((productos) => productos.id === parseInt(prodId))
+    let indice = carrito.indexOf(item)
+    carrito.splice(indice, 1)
+    renderizarCarrito()
+    localStorage.setItem("carrito",JSON.stringify(carrito))
+  }
+  
 }
 
-let categoria= getElementById("catComp")
-categoria.onclick(filtrarPorCategoria)
+
 
 function filtrarPorCategoria(e) {
   let productosFiltrados = productos.filter(({ categoria }) => categoria === e.target.id)
@@ -189,4 +238,3 @@ function mostrarSweetAlert(titulo, texto, icono, tiempo, mostrarBoton, urlImagen
 }
 
   
-}
