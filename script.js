@@ -13,8 +13,7 @@ let buscador = document.getElementById("buscador")
 let buscar = document.getElementById("buscar")
 buscar.onclick = filtrar
 
-let inputMin = document.getElementById("min")
-let inputMax = document.getElementById("max")
+
 
 let verCarrito = document.getElementById("verCarrito")
 verCarrito.addEventListener("click", mostrarOcultarCarrito)
@@ -39,11 +38,11 @@ function filtrar() {
   let productosFiltrados
   if (buscador.value) {
     productosFiltrados = productos.filter(producto => producto.nombre.toLowerCase().includes(buscador.value.toLowerCase()) || producto.categoria.toLowerCase().includes(buscador.value.toLowerCase()))
-  } else if (inputMin.value && inputMax.value) {
-    productosFiltrados = productos.filter(producto => producto.precio > Number(inputMin.value) && producto.precio < Number(inputMax.value))
-  }
+  } 
   renderizarProductos(productosFiltrados)
 }
+
+  
 
 function carritoVacio(){
   if (carrito.length === 0){
@@ -63,7 +62,7 @@ function renderizarProductos(arrayDeProductos) {
     tarjetaProducto.innerHTML = `
     <div class="card border-danger mb-3" style="max-width: 20rem;">
       <h3>${nombre}</h3>
-      <p>$${precio}</p>
+      <p>$${new Intl.NumberFormat('de-DE').format (precio)}</p>
       <img src=./img/${imagen} class="imagen"/>
       <button id=agregar${id} class="btn btn-outline-success loQuiero">Agregar al carrito</button>
     </div>
@@ -129,33 +128,33 @@ function renderizarCarrito(productosEnCarrito) {
     tarjetaProducto.innerHTML += `
       <h3>${nombre}</h3>
       <img src=./img/${imagen} class="imgCarrito">
-      <p> Precio:<br>$${subtotal}</p>
+      <p> Precio:<br>$${new Intl.NumberFormat('de-DE').format (subtotal)}</p>
       <button id=restarCant${id} class="btn btn-outline-primary">-</button>
       <p class="cantidadCArrito">Cantidad: ${unidades}</p>
       <button id=aumentarCant${id} class="btn btn-outline-primary">+</button>
-      <p>Subtotal: $${(unidades * subtotal)}</p>
-      <button id=eliminar${id} class="btn btn-outline-primary"> Eliminar</button>
+      <p>Subtotal: $${new Intl.NumberFormat('de-DE').format (unidades * subtotal)}</p>
+      <button id=eliminar${id} class="btn btn-outline-danger"> Eliminar</button>
       
     `
     contenedorCarrito.appendChild(tarjetaProducto)
     let btnEliminar = document.getElementById("eliminar" + id)
-    btnEliminar.addEventListener("click", eliminarDelCarrito)
+    btnEliminar.onclick= eliminarDelCarrito
 
     let btnRestarCant = document.getElementById("restarCant" + id)
-    btnRestarCant.addEventListener("click", restarCant)
+    btnRestarCant.onclick = restarCant
 
     let btnAumentarCant = document.getElementById("aumentarCant" + id)
-    btnAumentarCant.addEventListener("click", aumentarCant)
+    btnAumentarCant.onclick = aumentarCant
 
   })
   
-  contenedorCarrito.innerHTML += `
-    <div class="btn-comprar">
-    <button id="comprar"class="btn btn-outline-success">COMPRAR</button>
-    </div>
-  `
-  let comprar = document.getElementById("comprar")
-  comprar.addEventListener("click", finalizarCompra)
+  // contenedorCarrito.innerHTML += `
+  //   <div class="btn-comprar">
+  //   <button id="comprar"class="btn btn-outline-success">COMPRAR</button>
+  //   </div>
+  // `
+  // let comprar = document.getElementById("comprar")
+  // comprar.addEventListener("click", finalizarCompra)
   
 }
 
@@ -188,7 +187,7 @@ function restarCant(e) {
   let item = carrito.find(producto => producto.id ===Number(prodId))
   let indice = carrito.indexOf(item)
    if (carrito[indice].unidades > 1){
-    carrito[indice].unidades--
+    carrito[indice].unidades-1
    }else if (carrito[indice].unidades == 1){
     Toastify({
       text: "Elimine el producto",
@@ -212,7 +211,8 @@ function restarCant(e) {
     let indice = carrito.indexOf(item)
     carrito.splice(indice, 1)
     renderizarCarrito()
-    localStorage.setItem("carrito",JSON.stringify(carrito))
+    localStorage.removeItem("carrito",JSON.stringify(carrito))
+    
   }
   
 }
