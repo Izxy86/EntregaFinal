@@ -15,13 +15,18 @@ function miPrograma(productos) {
 
 
 
+
   let verCarrito = document.getElementById("verCarrito")
   verCarrito.addEventListener("click", mostrarOcultarCarrito)
+  let contacto = document.getElementById("contacto")
+  contacto.addEventListener("click", mostrarOcultarCarrito)
+
 
   function mostrarOcultarCarrito() {
     contenedorProductos.classList.toggle("ocultar")
     contenedorCarrito.classList.toggle("ocultar")
     ocultarCarrito.classList.toggle("ocultar")
+    contacto.classList.toggle("ocultar")
   }
 
   renderizarProductos(productos)
@@ -37,8 +42,8 @@ function miPrograma(productos) {
     renderizarProductos(productosFiltrados)
   }
 
-  
-  
+
+
 
 
 
@@ -136,7 +141,7 @@ function miPrograma(productos) {
       let btnAumentarCant = document.getElementById("aumentarCant" + id)
       btnAumentarCant.onclick = aumentarCant
 
-    
+
     })
     let precioTotal = document.getElementById("precioTotal")
     precioTotal.innerText = carrito.reduce((acumulador, producto) => acumulador + producto.unidades * producto.subtotal, 0)
@@ -197,38 +202,91 @@ function miPrograma(productos) {
 
   }
 
-}
+  function formularioContacto() {
+    contacto.innerText = ""
+    let formContacto = document.createElement("div")
+    formContacto.innerHTML = `
+    <h3>¿Con qué podemos ayudarte?</h3>
+    <div class="contenedorForm">
+      <form>
+        <div class="form-group">
+          <fieldset>
+            <label class="form-label mt-4" for="readOnlyInput">Nombre</label>
+            <input class="form-control" id="nombre" type="text" placeholder="Readonly input here..." readonly="">
+          </fieldset>
+          <fieldset>
+            <label class="form-label mt-4" for="readOnlyInput">Apellido</label>
+            <input class="form-control" id="apellido" type="text" placeholder="Readonly input here..." readonly="">
+          </fieldset>
+          <fieldset>
+            <label class="form-label mt-4" for="readOnlyInput">Teléfono</label>
+            <input class="form-control" id="telefono" type="number" placeholder="Readonly input here..." readonly="">
+          </fieldset>
+          <fieldset>
+            <label for="exampleInputEmail1" class="form-label mt-4">Email address</label>
+            <input type="email" class="form-control" id="mail" aria-describedby="emailHelp" placeholder="Enter email">
+          </fieldset>
+          <fieldset>
+            <label for="exampleTextarea" class="form-label mt-4">Escriba aquí</label>
+            <textarea class="form-control" id="msj" rows="5"></textarea>
+          </fieldset>
+        </div>
+        <button type="button" class="btn btn-outline-info" id="enviarForm">Enviar</button>
+      </form>
+    </div>`
+  }
+
+  let pestaniaContacto = document.getElementById("contacto")
+  pestaniaContacto.onclick = formularioContacto
 
 
 
-function filtrarPorCategoria(e) {
-  let productosFiltrados = productos.filter(({ categoria }) => categoria === e.target.id)
-  renderizarProductos(productosFiltrados)
-}
 
-function toasti(texto) {
-  Toastify({
-    text: texto,
-    duration: 1500,
-    gravity: "top",
-    position: "right",
-    style: {
-      background: "linear-gradient(to right,#00b09b, #96c93d )",
+
+  function filtrarPorCategoria(e) {
+    let productosFiltrados = productos.filter(({ categoria }) => categoria === e.target.id)
+    renderizarProductos(productosFiltrados)
+  }
+
+  function toasti(texto) {
+    Toastify({
+      text: texto,
+      duration: 1500,
+      gravity: "top",
+      position: "right",
+      style: {
+        background: "linear-gradient(to right,#00b09b, #96c93d )",
+      }
+    }).showToast();
+  }
+
+  function mostrarSweetAlert(titulo, texto, icono, tiempo, mostrarBoton, urlImagen, anchoImagen, altoImagen) {
+    Swal.fire({
+      title: titulo,
+      text: texto,
+      icon: icono,
+      timer: tiempo,
+      showConfirmButton: mostrarBoton,
+      imageUrl: urlImagen,
+      imageWidth: anchoImagen,
+      imageHeight: altoImagen
+    })
+  }
+
+  let btnEnviarForm = document.getElementById("enviarForm")
+  btnEnviarForm.addEventListener("click", () => {
+    let nombre = document.getElementById("nombre").value
+    let apellido = document.getElementById("apellido").value
+    let telefono = document.getElementById("telefono").value
+    let email = document.getElementById("mail").value
+    let mensaje = document.getElementById("msj").value
+
+
+    if (nombre == "" || apellido == "" || telefono == "" || email == "" || mensaje == "") {
+      mostrarSweetAlert('Error', 'Todos los campos deben completarse', 'error', 3000, 'Aceptar')
+    } else {
+      mostrarSweetAlert('Recibido', 'A la brevedad alguien de nuestro equipo se pondrá en contacto contigo', 'success', 3000, 'Aceptar')
     }
-  }).showToast();
-}
-
-function mostrarSweetAlert(titulo, texto, icono, tiempo, mostrarBoton, urlImagen, anchoImagen, altoImagen) {
-  Swal.fire({
-    title: titulo,
-    text: texto,
-    icon: icono,
-    timer: tiempo,
-    showConfirmButton: mostrarBoton,
-    imageUrl: urlImagen,
-    imageWidth: anchoImagen,
-    imageHeight: altoImagen
   })
+
 }
-
-
