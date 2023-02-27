@@ -56,3 +56,15 @@
   max-width: 100px;
   max-height: 100px;
 }
+
+h4{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.botonComprar{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
