@@ -141,7 +141,7 @@ function renderizarCarrito(productosEnCarrito) {
     btnEliminar.onclick= eliminarDelCarrito
 
     let btnRestarCant = document.getElementById("restarCant" + id)
-    btnRestarCant.onclick = restarCant
+    btnRestarCant.addEventListener("click",restarCant)
 
     let btnAumentarCant = document.getElementById("aumentarCant" + id)
     btnAumentarCant.onclick = aumentarCant
@@ -184,11 +184,20 @@ function aumentarCant(e) {
 function restarCant(e) {
 
   let prodId = e.target.id.substring(10)
-  let item = carrito.find(producto => producto.id ===Number(prodId))
+  let item = carrito.find(producto => producto.id === Number(prodId))
   let indice = carrito.indexOf(item)
    if (carrito[indice].unidades > 1){
-    carrito[indice].unidades-1
-   }else if (carrito[indice].unidades == 1){
+    carrito[indice].unidades--
+    Toastify({
+      text: "Cantidad Actualizada",
+      duration: 3000,
+      gravity: "top", 
+      position: "right", 
+      style:{
+        background: "linear-gradient(to right,#00b09b, #96c93d )"
+      }
+    }).showToast();
+   }else if (carrito[indice].unidades === 1){
     Toastify({
       text: "Elimine el producto",
       duration: 3000,
@@ -200,7 +209,7 @@ function restarCant(e) {
     }).showToast();
 
    }
-   renderizarCarrito()
+   renderizarCarrito(carrito)
    localStorage.setItem("carrito",JSON.stringify(carrito))
   }
 
@@ -210,7 +219,7 @@ function restarCant(e) {
     let item = carrito.find((productos) => productos.id === parseInt(prodId))
     let indice = carrito.indexOf(item)
     carrito.splice(indice, 1)
-    renderizarCarrito()
+    renderizarCarrito(carrito)
     localStorage.removeItem("carrito",JSON.stringify(carrito))
     
   }
