@@ -18,15 +18,23 @@ function miPrograma(productos) {
 
   let verCarrito = document.getElementById("verCarrito")
   verCarrito.addEventListener("click", mostrarOcultarCarrito)
-  let contacto = document.getElementById("contacto")
-  contacto.addEventListener("click", mostrarOcultarCarrito)
+  let contactoForm = document.getElementById("contacto")
+  contactoForm.onclick= mostrarContacto
 
+ 
 
+  function mostrarContacto(){
+    contactoForm.classList.remove("ocultar")  
+    contenedorProductos.classList.toggle("ocultar")
+    
+    
+  }
   function mostrarOcultarCarrito() {
     contenedorProductos.classList.toggle("ocultar")
     contenedorCarrito.classList.toggle("ocultar")
     ocultarCarrito.classList.toggle("ocultar")
-    contacto.classList.toggle("ocultar")
+    
+    
   }
 
   renderizarProductos(productos)
@@ -202,51 +210,14 @@ function miPrograma(productos) {
 
   }
 
-  function formularioContacto() {
-    contacto.innerText = ""
-    let formContacto = document.createElement("div")
-    formContacto.innerHTML = `
-    <h3>¿Con qué podemos ayudarte?</h3>
-    <div class="contenedorForm">
-      <form>
-        <div class="form-group">
-          <fieldset>
-            <label class="form-label mt-4" for="readOnlyInput">Nombre</label>
-            <input class="form-control" id="nombre" type="text" placeholder="Readonly input here..." readonly="">
-          </fieldset>
-          <fieldset>
-            <label class="form-label mt-4" for="readOnlyInput">Apellido</label>
-            <input class="form-control" id="apellido" type="text" placeholder="Readonly input here..." readonly="">
-          </fieldset>
-          <fieldset>
-            <label class="form-label mt-4" for="readOnlyInput">Teléfono</label>
-            <input class="form-control" id="telefono" type="number" placeholder="Readonly input here..." readonly="">
-          </fieldset>
-          <fieldset>
-            <label for="exampleInputEmail1" class="form-label mt-4">Email address</label>
-            <input type="email" class="form-control" id="mail" aria-describedby="emailHelp" placeholder="Enter email">
-          </fieldset>
-          <fieldset>
-            <label for="exampleTextarea" class="form-label mt-4">Escriba aquí</label>
-            <textarea class="form-control" id="msj" rows="5"></textarea>
-          </fieldset>
-        </div>
-        <button type="button" class="btn btn-outline-info" id="enviarForm">Enviar</button>
-      </form>
-    </div>`
-  }
+ 
 
-  let pestaniaContacto = document.getElementById("contacto")
-  pestaniaContacto.onclick = formularioContacto
+  
 
 
 
 
 
-  function filtrarPorCategoria(e) {
-    let productosFiltrados = productos.filter(({ categoria }) => categoria === e.target.id)
-    renderizarProductos(productosFiltrados)
-  }
 
   function toasti(texto) {
     Toastify({

@@ -40,6 +40,13 @@
 .ocultar {
   display: none !important;
 }
+.ocultar1 {
+  display: none !important;
+}
+
+.contactoForm{
+  display: flex;
+}
 .imagen{
   margin-left: 5px;
   margin-right: 5px;

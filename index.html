@@ -51,7 +51,36 @@
     </div>
   </div>
 
-  <div id="contacto" class="ocultar"></div>
+  <div id="contacto" class="ocultar">
+    <h3>¿Con qué podemos ayudarte?</h3>
+    <div class="contenedorForm">
+      <form>
+        <div class="form-group">
+          <fieldset>
+            <label class="form-label mt-4" for="readOnlyInput">Nombre</label>
+            <input class="form-control" id="nombre" type="text" placeholder="Nombre" readonly="">
+          </fieldset>
+          <fieldset>
+            <label class="form-label mt-4" for="readOnlyInput">Apellido</label>
+            <input class="form-control" id="apellido" type="text" placeholder="Apellido" readonly="">
+          </fieldset>
+          <fieldset>
+            <label class="form-label mt-4" for="readOnlyInput">Teléfono</label>
+            <input class="form-control" id="telefono" type="number" placeholder="Tel" readonly="">
+          </fieldset>
+          <fieldset>
+            <label for="exampleInputEmail1" class="form-label mt-4">Email address</label>
+            <input type="email" class="form-control" id="mail" aria-describedby="emailHelp" placeholder="Ingrese su email">
+          </fieldset>
+          <fieldset>
+            <label for="exampleTextarea" class="form-label mt-4">Escriba aquí</label>
+            <textarea class="form-control" id="msj" rows="5"></textarea>
+          </fieldset>
+        </div>
+        <button type="button" class="btn btn-outline-info" id="enviarForm">Enviar</button>
+      </form>
+    </div>`
+  </div>
 
  
  
