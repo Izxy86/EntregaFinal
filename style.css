@@ -75,3 +75,29 @@ h4{
   align-items: center;
   justify-content: center;
 }
+
+.h3contact{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contenedorForm{
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+#msj{
+  width: 1080px;
+}
+
+.enviarBtn{
+  
+  margin-top: 20px;
+  margin-left: 500px;
+  align-items: center;
+  justify-content: center;
+}
+

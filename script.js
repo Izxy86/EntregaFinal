@@ -18,21 +18,22 @@ function miPrograma(productos) {
 
   let verCarrito = document.getElementById("verCarrito")
   verCarrito.addEventListener("click", mostrarOcultarCarrito)
-  let contactoForm = document.getElementById("contacto")
-  contactoForm.onclick= mostrarContacto
+  let contactoForm = document.getElementById("contactoBtn")
+  contactoForm.addEventListener("click",mostrarOcultarContacto)
 
- 
-
-  function mostrarContacto(){
-    contactoForm.classList.remove("ocultar")  
+  function mostrarOcultarContacto(){
     contenedorProductos.classList.toggle("ocultar")
-    
-    
+    let contactoOcultar = document.getElementById("ocultarContacto")
+    contactoOcultar.classList.toggle("ocultar")
+
   }
+
+
   function mostrarOcultarCarrito() {
     contenedorProductos.classList.toggle("ocultar")
     contenedorCarrito.classList.toggle("ocultar")
     ocultarCarrito.classList.toggle("ocultar")
+    
     
     
   }
