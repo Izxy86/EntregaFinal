@@ -153,7 +153,8 @@ function miPrograma(productos) {
 
     })
     let precioTotal = document.getElementById("precioTotal")
-    precioTotal.innerText = carrito.reduce((acumulador, producto) => acumulador + producto.unidades * producto.subtotal, 0)
+    precioTotal.innerText =new Intl.NumberFormat('de-DE').format( carrito.reduce((acumulador, producto) => acumulador + producto.unidades * producto.subtotal, 0))
+    
     const comprar = document.getElementById("comprar")
     comprar.addEventListener("click", finalizarCompra)
 
